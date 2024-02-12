@@ -35,15 +35,11 @@ body, #root {
 }
 
 :root {
-  --Purple-gradient: linear-gradient(40deg, #6A67FB 0.15%, #8D71FF 100%);
-  --Purple-bg: #6A67FB;
-  --Purple-bg-light: #F3F3FF;
-  --Purple-text: #6C69FC;
-  --Gray-text: #818C99;
-  --Gray-input-bg: #F5F5F7;
-  --Gray-icon-stroke: #68717B;
-  --Green-validation-text: hsl(172, 56%, 47%);
-  --Green-validation-bg: hsla(172, 56%, 47%, 15%);
-  --Red-validation-text: hsl(349, 100%, 69%);
-  --Red-validation-bg: hsla(349, 100%, 69%, 15%);
+  --purple: 108 105 252;
+  --green: 52 187 168;
+  --red: 255 97 126;
+  --gray: 129 140 153;
+  --gray-light: 245 245 247;
+  --gray-dark: 104 113 123;
+  /*--purple-gradient: linear-gradient(40deg, #6A67FB 0.15%, #8D71FF 100%);*/
 }

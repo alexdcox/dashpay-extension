@@ -4,122 +4,155 @@ import React from "react";
 const mockUsers: any = [{
   name: 'Deohge',
   username: 'deohge',
-  profileCircle: 'D',
   active: true,
+  balance: 13.20323,
+  address: 'yhwXNMsJzkSH3epRdaS5EvUewDqQxgGCfo',
 },{
   name: 'Anna',
   username: 'anna1',
-  profileCircle: 'A',
-  profileColor: 'bg-[#DCC7FD]',
+  profileColor: '#DCC7FD',
 },{
   name: 'Anna',
   username: 'anna22',
-  profileCircle: <img src={profilePlaceholderImage} alt=""/>,
+  profileImage: profilePlaceholderImage,
 },{
   name: 'Bob',
   username: 'bobby',
-  profileCircle: 'A',
-  profileColor: 'bg-[#B4EFC1]',
+  profileColor: '#B4EFC1',
   shared: 3,
 },{
   name: 'Bobaniel Gregorious Timothy Balderdash',
   username: 'bob1990',
-  profileCircle: <img src={profilePlaceholderImage} alt=""/>,
+  profileImage: profilePlaceholderImage,
   shared: 1,
 },{
   username: 'matt938',
   name: 'Matt',
-  profileCircle: 'M',
-  profileColor: 'bg-[#A4D6FF]',
+  profileColor: '#A4D6FF',
 },{
   username: 'john',
   name: 'John',
-  profileCircle: 'J',
-  profileColor: 'bg-[#FA7C7C]'
+  profileColor: '#0bc290'
+},{
+  username: 'sam',
+  name: 'Sam',
+  profileColor: '#A4D6FF'
 },{
   name: 'PostmanPat',
   username: 'blackandwhitecat',
-  profileCircle: <img src={profilePlaceholderImage} alt=""/>,
+  profileImage: profilePlaceholderImage,
 }]
 
 const user = (username: string) => mockUsers.find(u => u.username === username)
 const users = (...usernames: Array<string>) => mockUsers.filter(u => usernames.includes(u.username))
 
+const mockTransactions = [
+  [user('matt938'), 1, 190, 'May 12, 2021', '10:08'],
+  [user('matt938'), -2, 190, 'May 12, 2021', '10:08'],
+  [user('john'), -2, 380, 'May 11, 2021', '10:08'],
+  [user('john'), -2, 380, 'May 11, 2021', '10:08'],
+  [user('john'), 3, 380, 'May 11, 2021', '10:08'],
+  [user('anna22'), -2, 380, 'May 10, 2021', '10:08'],
+  [user('john'), 1.4, 380, 'May 10, 2021', '10:08'],
+  [user('john'), -2, 380, 'May 10, 2021', '10:08'],
+  [user('john'), 5.2, 380, 'May 10, 2021', '10:08'],
+].map(x => ({
+  ...x[0],
+  amount: x[1],
+  usdEquivalent: x[2],
+  date: x[3],
+  time: x[4],
+}))
+
+const mockLegacyTransactions = mockTransactions.map(({amount, usdEquivalent, date, time}) => ({amount, usdEquivalent, date, time}))
+
+const mockFriends = users('anna1', 'anna22')
+
+const mockConversations = [{
+  userId: 'sam',
+  messages: [{
+    direction: 'in',
+    text: 'When was the last time you saw Anna?',
+    date: 'May 11, 2021',
+    time: '10:08'
+  }, {
+    direction: 'out',
+    text: 'Hi, how are you? I want to send you 2 dash',
+    date: 'May 11, 2021',
+    time: '10:08',
+    status: 'read',
+  }, {
+    direction: 'out',
+    text: 'Is it over, over?',
+    date: 'May 11, 2021',
+    time: '10:09',
+    status: 'sent',
+  }],
+}]
+
 class Store {
-  getTransactions() {
-    const matt = user('matt938')
-    const john = user('john')
-    return [{
-      ...matt,
-      amount: 1,
-      usdEquivalent: 190,
-      date: 'May 12, 2021',
-    }, {
-      ...matt,
-      amount: -2,
-      usdEquivalent: 190,
-      date: 'May 12, 2021',
-    }, {
-      ...john,
-      amount: -2,
-      usdEquivalent: 380,
-      date: 'May 11, 2021',
-    }, {
-      ...john,
-      amount: -2,
-      usdEquivalent: 380,
-      date: 'May 11, 2021',
-    }, {
-      ...john,
-      amount: 3,
-      usdEquivalent: 380,
-      date: 'May 11, 2021',
-    }, {
-      ...john,
-      amount: -2,
-      usdEquivalent: 380,
-      date: 'May 10, 2021',
-    }, {
-      ...john,
-      amount: 1.4,
-      usdEquivalent: 380,
-      date: 'May 10, 2021',
-    }, {
-      ...john,
-      amount: -2,
-      usdEquivalent: 380,
-      date: 'May 10, 2021',
-    }, {
-      ...john,
-      amount: 5.2,
-      usdEquivalent: 380,
-      date: 'May 10, 2021',
-    }]
+  async getTransactions() {
+    console.log('@Store getTransactions')
+    return mockTransactions
   }
-  getAccounts() {
+  async getLegacyTransactions() {
+    return mockLegacyTransactions
+  }
+  async getAccounts() {
     return users('deohge', 'blackandwhitecat')
   }
-  getFriends() {
-    return users('anna1', 'anna22')
+  async getFriends() {
+    return mockFriends
   }
-  getSuggestedFriends() {
+  async getSuggestedFriends() {
     return users('bobby', 'bob1990')
   }
-  getUsers() {
+  async getUsers() {
     return mockUsers
   }
-  getMessages() {
-
+  async getUser(userId: string): Promise<any> {
+    return user(userId)
   }
-  getContacts() {
-
+  async getMessages(userId: string): Promise<any> {
+    return mockConversations.find(convo => convo.userId == userId)?.messages
   }
-  logOut() {
+  async getContacts(): Promise<any> {
+    return mockUsers
+  }
+  async search(term): Promise<any> {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        const latestChatMessages = mockConversations.map(convo => {
+          const latestMessage = convo.messages[0]
+          return {
+            from: user(convo.userId),
+            text: latestMessage.text,
+            date: latestMessage.date,
+            time: latestMessage.time,
+          }
+        })
+        resolve({
+          friends: mockFriends,
+          messages: latestChatMessages,
+          everyone: mockUsers.slice(3),
+        })
+      }, 1000)
+    })
+  }
+  async logOut() {
     mockUsers.forEach(u => u.active = false)
   }
 
-  logIn(selectedAccount: any, password: string) {
+  async logIn(selectedAccount: any, password: string) {
     mockUsers.forEach(u => u.active = u.username === selectedAccount.username)
+  }
+
+  async getActiveAccount() {
+    return mockUsers.find(u => u.active)
+  }
+
+  async updateActiveAccount(account: any) {
+    Object.assign(this.getActiveAccount(), account)
   }
 }
 

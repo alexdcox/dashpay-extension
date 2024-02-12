@@ -1,10 +1,13 @@
 import React from 'react'
 
-export default function(props: any) {
+export default function({
+  type,
+  children = null,
+  className = '',
+}) {
   let typeClasses = ''
-  let children = props.children
-  let propClasses = props.className
-  switch(props.type) {
+  let propClasses = className
+  switch(type) {
     case 'text-1':
       typeClasses = 'text-base font-normal'
       break
@@ -19,6 +22,9 @@ export default function(props: any) {
       break
     case 'text-5':
       typeClasses = 'text-xs font-normal'
+      break
+    case 'text-6':
+      typeClasses = 'text-xs font-semibold'
       break
     case 'text-7':
       typeClasses = 'text-[0.6875rem] font-semibold'
@@ -44,6 +50,9 @@ export default function(props: any) {
     case 'message':
       typeClasses = 'line-height-[1.125rem] text-[0.875rem]'
       break
+    case 'event':
+      typeClasses = 'line-height-[1.125rem] text-[0.75rem] italic font-medium'
+      break
     default:
       typeClasses = 'text-base text-bold text-red-500'
       propClasses = ''
@@ -52,7 +61,6 @@ export default function(props: any) {
   }
   return (
     <div {...{
-      ...props,
       children,
       className: `${typeClasses} ${propClasses} antialiased`,
     }}/>

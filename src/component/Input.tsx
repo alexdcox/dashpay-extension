@@ -1,26 +1,49 @@
-import React, {DOMElement, useEffect, useRef} from "react";
-import {SearchOutline} from "react-ionicons";
+import React, {useEffect, useRef} from "react";
+import Text from './Text'
 
-export default function(props: any) {
-  const {placeholder = 'Search'} = props
-  const inputRef = useRef<HTMLInputElement>()
+export default function ({
+  placeholder = '',
+  className = '',
+  inputClassName = '',
+  type = 'text',
+  value = '',
+  pre = null,
+  post = null,
+  onKeyDown = undefined,
+  onChange = undefined,
+  label = undefined,
+  textarea = false,
+  autoFocus = false,
+}) {
+  const inputRef = useRef<any>()
+
   useEffect(() => {
-    if(props.autoFocus) {
+    if (autoFocus) {
       inputRef?.current?.focus()
     }
   }, []);
-  return (
-    <div {...{
-      className: `${props.className} w-full group relative`,
-    }}>
-      <input ref={inputRef} type="text" onKeyDown={props?.onKeyDown} onChange={props.onChange} value={props.value || ''} placeholder={placeholder} type={props.type || 'text'} className="
-      bg-gray-100 w-full text-base outline-0 border p-2 pl-3 rounded-xl flex items-center
-      focus:bg-dp-bg-purple-light focus:border-dp-text-purple"/>
-    </div>
 
-    // <div className={props.className}>
-    //   <span className="text-dp-text-gray text-sm font-light">{props.label}</span>
-    //   <input type="text" placeholder={props.placeholder} className="outline-0 w-full border border border-gray-200 p-2 pl-3 mt-1 text-base rounded rounded-lg bg-gray-100 font-light"/>
-    // </div>
+  const inputProps = {
+    ref: inputRef,
+    type: "text",
+    onKeyDown,
+    onChange,
+    value,
+    placeholder: placeholder,
+    className: `resize-none bg-gray-100 w-full text-base outline-0 border p-2 pl-3 rounded-xl flex items-center focus:bg-dp-purple/10 focus:border-dp-purple ${inputClassName}`,
+  }
+
+  return (
+    <div {...{className: `w-full group relative ${className}`}}>
+      {label && (
+        <Text type="text-3" className="mb-1 text-dp-gray">{label}</Text>
+      )}
+      {pre}
+      {textarea ?
+        <textarea {...inputProps}></textarea> :
+        <input {...{...inputProps, type}} />
+      }
+      {post}
+    </div>
   )
 }

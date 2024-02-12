@@ -1,9 +1,9 @@
 <svg width="7" height="9" viewBox="0 0 7 9" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g id="Group 64">
-<path id="Vector 19" d="M1 8.5L6.33334 8.5" stroke="#6C69FC" stroke-linecap="round"/>
+<path id="Vector 19" d="M1 8.5L6.33334 8.5" stroke-linecap="round"/>
 <g id="Arrow - Up">
-<path id="Stroke 1" d="M3.6665 0.94443L3.6665 6.27777" stroke="#6C69FC" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Stroke 3" d="M1.88881 2.27777L3.66643 0.500009L5.44434 2.27777" stroke="#6C69FC" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Stroke 1" d="M3.6665 0.94443L3.6665 6.27777" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Stroke 3" d="M1.88881 2.27777L3.66643 0.500009L5.44434 2.27777" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
 </g>
 </svg>

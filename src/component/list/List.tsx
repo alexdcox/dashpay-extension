@@ -1,38 +1,49 @@
 import React from 'react'
 
-export default function (props: any) {
-  const {entries = []} = props
+export default function ({
+  onSelect = undefined,
+  iconContent = undefined,
+  mainContent = undefined,
+  rightContent = undefined,
+  entries = [],
+  className = '',
+  size = 'sm',
+}) {
   const classes = {
     lg: {
-      item: 'mb-6',
-      spacer: '-mb-3',
+      // item: 'mb-6',
+      spacer: 'my-3',
     },
     sm: {
-      item: 'mb-4',
-      spacer: '-mb-2',
+      // item: 'mb-4',
+      spacer: 'my-2',
     },
     xs: {
-      item: 'mb-3',
-      spacer: '-mb-1.5',
+      // item: 'mb-3',
+      spacer: 'my-1.5',
     },
   }
-  const size = props.size || 'sm'
   return (
-    <div {...{
-      className: props.className + " ",
-    }}>
+    <div className={`w-full ${className}`}>
       {entries.map((entry: any, index: number) => (
-        <div key={index} className={`relative flex items-center cursor-pointer flex-grow ${classes[size].item}`}>
-          {props?.iconContent?.(entry)}
-          <div className="flex flex-col ml-3 overflow-hidden w-full" onClick={() => props?.onSelect?.(entry)}>
-            <div className="flex flex-row items-center w-full">
-              <div className="flex flex-col flex-grow overflow-hidden">
-                {props.mainContent && props.mainContent(entry)}
+        <div key={index}
+             className={`flex items-center cursor-pointer flex-grow ${index < entries.length - 1 ? classes[size].item : ''}`}>
+          <div className="flex flex-col w-full">
+            <div className="flex flex-row">
+              {iconContent?.(entry)}
+              <div className=" flex flex-row ml-3 overflow-hidden w-full items-center justify-center"
+                   onClick={() => onSelect?.(entry)}>
+                <div className="flex flex-col flex-grow overflow-hidden">
+                  {mainContent && mainContent(entry)}
+                </div>
+                {rightContent && rightContent(entry)}
               </div>
-              {props.rightContent && props.rightContent(entry)}
             </div>
-            {(
-              <div className={`spacer h-[1px] w-full absolute bottom-0 ${classes[size].spacer} bg-slate-200`}></div>
+            {index < entries.length - 1 && (
+              <div className="flex flex-row -mr-6">
+                <div className="w-[3rem]"></div>
+                <div className={`spacer h-[1px] w-full ml-3 ${classes[size].spacer} bg-slate-200`}></div>
+              </div>
             )}
           </div>
         </div>

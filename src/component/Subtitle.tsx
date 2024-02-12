@@ -1,10 +1,13 @@
 import React from "react";
 
-export default function (props: any) {
+export default function ({
+  children,
+  className = '',
+}) {
   return (
     <div {...{
-      ...props,
-      className: props.className + " text-lg text-black font-semibold",
+      children,
+      className: `text-lg text-black font-semibold ${className}`,
     }}/>
   )
 }

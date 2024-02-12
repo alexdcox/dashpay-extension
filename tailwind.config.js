@@ -7,16 +7,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        'dp-bg-purple': 'var(--Purple-bg)',
-        'dp-bg-purple-light': 'var(--Purple-bg-light)',
-        'dp-bg-red': 'var(--Red-validation-bg)',
-        'dp-bg-gray': 'var(--Gray-input-bg)',
-        'dp-bg-green': 'var(--Green-validation-bg)',
-        'dp-text-purple': 'var(--Purple-text)',
-        'dp-text-gray': 'var(--Gray-text)',
-        'dp-text-gray-dark': 'var(--Gray-icon-stroke)',
-        'dp-text-red': 'var(--Red-validation-text)',
-        'dp-text-green': 'var(--Green-validation-text)',
+        'dp-purple': 'rgb(var(--purple) / <alpha-value>)',
+        'dp-green': 'rgb(var(--green) / <alpha-value>)',
+        'dp-red': 'rgb(var(--red) / <alpha-value>)',
+        'dp-gray': 'rgb(var(--gray) / <alpha-value>)',
+        'dp-gray-light': 'rgb(var(--gray-light) / <alpha-value>)',
+        'dp-gray-dark': 'rgb(var(--gray-dark) / <alpha-value>)',
       },
       fontFamily: {
         // TODO: This isn't working?

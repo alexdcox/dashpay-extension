@@ -1,23 +1,26 @@
-import React, {useEffect} from 'react';
-import {createMemoryRouter, Link, RouterProvider} from "react-router-dom";
-import Pin from "./Pin";
-import Welcome from "./Welcome";
-import BackupPhrase from "./BackupPhrase";
-import Fingerprint from "./Fingerprint";
-import Home from "./Home";
-import Accounts from "./Accounts";
-import RecoverWallet from "./RecoverWallet";
-import Username from "./Username";
-import FriendProfile from "./FriendProfile";
-import Settings from "./Settings";
-import Chat from "./Chat";
-import Transactions from "./Transactions";
-import Contacts from "./Contacts";
+import React from 'react';
+import {createMemoryRouter, Link, Navigate, RouterProvider} from "react-router-dom";
+import Pin from "./PinPage";
+import Welcome from "./WelcomePage";
+import BackupPhrase from "./BackupPhrasePage";
+import Fingerprint from "./FingerprintPage";
+import Home from "./HomePage";
+import Accounts from "./AccountsPage";
+import RecoverWallet from "./RecoverWalletPage";
+import Username from "./UsernamePage";
+import FriendProfile from "./FriendProfilePage";
+import Settings from "./SettingsPage";
+import Chat from "./ChatPage";
+import Transactions from "./TransactionsPage";
+import Contacts from "./ContactsPage";
+import EditProfile from "./EditProfilePage";
+import TransactionsLegacy from "./TransactionsLegacyPage";
+import ChatLegacy from "./ChatLegacyPage";
 
 const routes = [
   {
     path: "/",
-    element: <Accounts/>
+    element: <Navigate to="/debug"/>,
   },
   {
     path: "/welcome",
@@ -68,13 +71,25 @@ const routes = [
     element: <Transactions/>
   },
   {
+    path: "/transactions-legacy",
+    element: <TransactionsLegacy/>
+  },
+  {
+    path: '/chat-legacy',
+    element: <ChatLegacy/>
+  },
+  {
     path: "/contacts",
     element: <Contacts/>
+  },
+  {
+    path: "/edit-profile",
+    element: <EditProfile/>
   },
 ]
 
 routes.push({
-    path: "debug",
+    path: "/debug",
     element: (
       <ul>
         {routes.filter(r => r.path.match(/^\/$/) == null).map((r, k) => (
@@ -88,12 +103,17 @@ routes.push({
 )
 
 const router = createMemoryRouter(routes);
+const routerHistory = []
+router.subscribe(state => {
+  routerHistory.push(state.location)
+})
+routerHistory.push(router.state.location)
+
+export const useHistory = () => {
+  return routerHistory
+}
 
 export default function () {
-  useEffect(() => {
-    console.log("Hello from the popup!");
-  }, []);
-
   return (
     <div className="dp-popup p-4 overflow-x-hidden no-scrollbar overflow-y-auto bg-white flex flex-col flex-grow">
       <RouterProvider router={router}/>
