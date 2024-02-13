@@ -35,6 +35,9 @@ export default function ({
 
   let sizeClasses = ''
   switch (size) {
+    case 'xxs':
+      sizeClasses = 'w-[30px] h-[30px] text-[0.6rem]'
+      break
     case 'xs':
       sizeClasses = 'w-[2.25rem] h-[2.25rem] text-[0.94rem]'
       break

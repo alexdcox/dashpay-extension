@@ -31,6 +31,8 @@ import DateSeparator from "../component/chat/DateSeparator";
 import AmountPill from "../component/chat/AmountPill";
 import SearchInput from "../component/SearchInput";
 import useQRModal from "../component/modal/useQRModal";
+import usePINModal from "../component/modal/usePINModal";
+import useFingerprintModal from "../component/modal/useFingerprintModal";
 
 export default function () {
   const Modes = {
@@ -50,6 +52,13 @@ export default function () {
   const toggleMenu = () => setState({...state, menuVisible: !state.menuVisible})
 
   const qrModal = useQRModal({address: state.address})
+  const pinModal = usePINModal()
+  const fingerprintModal = useFingerprintModal()
+
+  useEffect(() => {
+    // pinModal.setOpen(true)
+    // fingerprintModal.setOpen(true)
+  }, []);
 
   const menuOptions = [{
     text: 'Search messages',
@@ -473,6 +482,8 @@ export default function () {
   return (
     <>
       <qrModal.Component/>
+      <fingerprintModal.Component/>
+      <pinModal.Component/>
       {stateContent}
     </>
   )

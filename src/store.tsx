@@ -38,6 +38,11 @@ const mockUsers: any = [{
   name: 'Sam',
   profileColor: '#A4D6FF'
 },{
+},{
+  username: 'chad',
+  name: 'Chad Chaddly',
+  profileColor: '#A4D6FF'
+},{
   name: 'PostmanPat',
   username: 'blackandwhitecat',
   profileImage: profilePlaceholderImage,
@@ -106,6 +111,9 @@ class Store {
   }
   async getSuggestedFriends() {
     return users('bobby', 'bob1990')
+  }
+  async getFriendRequests() {
+    return users('bobby', 'bob1990', 'chad')
   }
   async getUsers() {
     return mockUsers

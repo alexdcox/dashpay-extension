@@ -16,7 +16,7 @@ export default function({
   }
   return (
     <div className={`keypad w-full ${className}`}>
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-3 h-full">
           {[...Array(9)].map((_, k) => (
             <Key key={k} onClick={() => onKeyPress(k+1)}>{k + 1}</Key>
           ))}

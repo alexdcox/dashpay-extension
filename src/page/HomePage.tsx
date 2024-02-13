@@ -2,12 +2,13 @@ import React, {useEffect, useState} from 'react'
 import MenuIcon from "../component/MenuIcon";
 import Text from "../component/Text";
 import walletImage from "../asset/image/wallet.svg";
+import {CheckmarkOutline, CloseOutline, Cog, EyeOutline, Person, PersonAdd, QrCode, Scan} from "react-ionicons";
+
 import checklistImage from "../asset/image/checklist.svg";
 import parkRelaxingImage from "../asset/image/parkrelaxing.svg";
 import LegacyPayments from "../component/LegacyPayments";
 import ProfileCircle from "../component/ProfileCircle";
 import Pill from "../component/Pill";
-import {Cog, EyeOutline, Person, PersonAdd, QrCode, Scan,} from "react-ionicons";
 import SearchInput from "../component/SearchInput";
 import useContextMenu from "../component/context-menu/useContextMenu";
 import transactionsSvg from "../asset/icon/transactions.svg";
@@ -104,7 +105,7 @@ export default function () {
     <div className="dp-home flex flex-col flex-grow flex-start">
       {menu.component}
       <qrModal.Component/>
-      {friendRequestModal.component}
+      <friendRequestModal.Component/>
       <section className="profile">
         <div className="flex flex-row">
           <ProfileCircle user={account} variant="primary"/>
@@ -201,23 +202,49 @@ export default function () {
               </div>
             </div>
             <div className="flex flex-row ml-4 -mr-4">
-              {/*<div className="bg-dp-green/10">*/}
-              {/*  /!*<div className="circle rounded-full w-[20px] h-[20px] "></div>*!/*/}
-              {/*  <Pill variant="primary">*/}
-              {/*    /!*<img src={receivedSvg} alt="request" style={{color: 'white', fill: 'white'}}/>*!/*/}
-              {/*    <ReceivedIcon/>*/}
-              {/*  </Pill>*/}
-              {/*  <Text type="text-4">Request</Text>*/}
-              {/*</div>*/}
-
               <div className="bg-dp-green/10 w-[80px] py-3 h-full flex flex-col justify-center items-center">
                 <IncomingIcon className="stroke-white bg-dp-green w-[1.5625rem] h-[1.5625rem]"/>
                 <Text type="text-4" className="mt-1">Request</Text>
               </div>
-
               <div className="bg-dp-purple/10 w-[80px] py-3 h-full flex flex-col justify-center items-center">
                 <OutgoingIcon className="stroke-white bg-dp-purple w-[1.5625rem] h-[1.5625rem]"/>
                 <Text type="text-4" className="mt-1">Send</Text>
+              </div>
+            </div>
+          </div>
+
+          {/* this one has the swipe friend request example */}
+          <div className="mt-3 flex items-center">
+            <ProfileCircle className="bg-[#A4D6FF]">S</ProfileCircle>
+            <div className="flex-col ml-3 w-full">
+              <div className="flex flex-row items-center">
+                <Text type="title-7">Sam</Text>
+                <Text type="text-5" className="ml-auto text-dp-purple">9:41 PM</Text>
+              </div>
+              <div className="flex flex-row items-center">
+                <Text type="text-3" className="text-dp-gray-dark">ok</Text>
+                <div className="flex ml-auto space-x-1">
+                  <Pill variant="received-small"/>
+                  <Pill variant="primary">3</Pill>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-row ml-4 -mr-4">
+              <div className="bg-gray-100 w-[80px] py-3 h-full flex flex-col justify-center items-center">
+                <div
+                  className={`circle rounded-full flex items-center justify-center bg-gray-400 w-[24px] h-[24px] `}>
+                  <CloseOutline width="20px" height="20px" color="white"/>
+                </div>
+                <Text type="text-4" className="mt-1">Ignore</Text>
+              </div>
+              <div className="bg-dp-green/10 w-[80px] py-3 h-full flex flex-col justify-center items-center">
+                <div
+                  className={`circle rounded-full flex items-center justify-center bg-dp-green w-[24px] h-[24px] `}>
+                  <CheckmarkOutline width="18px" height="18px" color="white"/>
+                </div>
+
+
+                <Text type="text-4" className="mt-1">Accept</Text>
               </div>
             </div>
           </div>
