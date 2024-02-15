@@ -96,6 +96,17 @@ const mockConversations = [{
 }]
 
 class Store {
+  static Events = {
+    AccountUpdated: 'account.updated',
+    SettingsUpdated: 'settings.updated',
+  }
+
+  eventListeners = {}
+
+  dispatch(event: string, data: any) {
+    Object.values(this.eventListeners?.[event] || {}).forEach((cb: any) => cb?.(data))
+  }
+
   async getTransactions() {
     console.log('@Store getTransactions')
     return mockTransactions
@@ -161,6 +172,16 @@ class Store {
 
   async updateActiveAccount(account: any) {
     Object.assign(this.getActiveAccount(), account)
+  }
+
+  on(event: string, cb: any) {
+    let listeners = {...(this.eventListeners?.[event] || {})}
+    const index = Object.keys(listeners).length
+    listeners[index] = cb
+    this.eventListeners[event] = listeners
+    return () => {
+      this.eventListeners[event][index] = undefined
+    }
   }
 }
 

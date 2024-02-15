@@ -39,3 +39,11 @@ export const fetchJson = async (method: string, url: string, data?: any, headers
 }
 
 export const toClipboard = (val: string) => navigator.clipboard.writeText(val);
+
+export const debounce = (fn: (...args: any) => void, ms = 300) => {
+  let timeoutId: ReturnType<typeof setTimeout>
+  return function(this: any, ...args: any[]) {
+    clearTimeout(timeoutId)
+    timeoutId = setTimeout(() => fn.apply(this, args), ms)
+  }
+}

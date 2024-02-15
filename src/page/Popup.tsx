@@ -20,7 +20,7 @@ import ChatLegacy from "./ChatLegacyPage";
 const routes = [
   {
     path: "/",
-    element: <Navigate to="/recover"/>,
+    element: <Navigate to="/username"/>,
   },
   {
     path: "/welcome",
