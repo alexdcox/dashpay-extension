@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 import webExtension, { readJsonFile } from "vite-plugin-web-extension";
 import path from "node:path";
 import svgr from 'vite-plugin-svgr'
+import {nodePolyfills} from "vite-plugin-node-polyfills";
 
 function generateManifest() {
   const manifest = readJsonFile("src/manifest.json");
@@ -31,7 +32,7 @@ export default defineConfig({
       // }
     }),
     svgr(),
-
+    nodePolyfills(),
   ],
   resolve: {
     alias: {

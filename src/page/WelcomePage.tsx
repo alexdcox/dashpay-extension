@@ -27,8 +27,7 @@ export default function() {
   const history = useHistory()
   const nav = useNavigate()
   const lastPath = history[history.length - 2]?.pathname
-  const activeSlide = lastPath ? slides.length - 1 : 0
-  const [state, setState] = useState({activeSlide})
+  const [state, setState] = useState({activeSlide: 0})
 
   const onNext = () => {
     if (state.activeSlide == slides.length - 1) nav('/username', {state: {allowBack: true}})

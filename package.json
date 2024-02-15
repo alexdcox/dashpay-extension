@@ -9,7 +9,11 @@
     "start:chrome": "web-ext run --source-dir ./dist/"
   },
   "dependencies": {
+    "@dashevo/dashcore-lib": "github:dashpay/dashcore-lib",
+    "@dashevo/platform": "github:dashpay/platform#master",
+    "@dashevo/wallet-lib": "^7.25.22",
     "autoprefixer": "^10.4.17",
+    "dash": "^3.25.22",
     "postcss": "^8.4.35",
     "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
@@ -28,6 +32,7 @@
     "@vitejs/plugin-react-swc": "^3.6.0",
     "typescript": "^4.9.5",
     "vite": "^4.5.2",
+    "vite-plugin-node-polyfills": "^0.21.0",
     "vite-plugin-web-extension": "^3.2.0",
     "webextension-polyfill": "^0.10.0"
   }
