@@ -1,48 +1,66 @@
 import profilePlaceholderImage from "./asset/image/profile-placeholder.jpeg";
 import React from "react";
 
+export interface Settings {
+  currency: string;
+}
+
+export interface Account {
+  name: string
+  username: string
+  profileColor?: string
+  profileImage?: string
+}
+
+export interface ActiveAccount extends Account {
+  address: string
+}
+
+let settings: Settings = {
+  currency: 'USD',
+}
+
 const mockUsers: any = [{
   name: 'Deohge',
   username: 'deohge',
   active: true,
   balance: 13.20323,
   address: 'yhwXNMsJzkSH3epRdaS5EvUewDqQxgGCfo',
-},{
+}, {
   name: 'Anna',
   username: 'anna1',
   profileColor: '#DCC7FD',
-},{
+}, {
   name: 'Anna',
   username: 'anna22',
   profileImage: profilePlaceholderImage,
-},{
+}, {
   name: 'Bob',
   username: 'bobby',
   profileColor: '#B4EFC1',
   shared: 3,
-},{
+}, {
   name: 'Bobaniel Gregorious Timothy Balderdash',
   username: 'bob1990',
   profileImage: profilePlaceholderImage,
   shared: 1,
-},{
+}, {
   username: 'matt938',
   name: 'Matt',
   profileColor: '#A4D6FF',
-},{
+}, {
   username: 'john',
   name: 'John',
   profileColor: '#0bc290'
-},{
+}, {
   username: 'sam',
   name: 'Sam',
   profileColor: '#A4D6FF'
-},{
-},{
+}, {}, {
   username: 'chad',
   name: 'Chad Chaddly',
   profileColor: '#A4D6FF'
-},{
+}, {
   name: 'PostmanPat',
   username: 'blackandwhitecat',
   profileImage: profilePlaceholderImage,
@@ -69,7 +87,12 @@ const mockTransactions = [
   time: x[4],
 }))
 
-const mockLegacyTransactions = mockTransactions.map(({amount, usdEquivalent, date, time}) => ({amount, usdEquivalent, date, time}))
+const mockLegacyTransactions = mockTransactions.map(({amount, usdEquivalent, date, time}) => ({
+  amount,
+  usdEquivalent,
+  date,
+  time
+}))
 
 const mockFriends = users('anna1', 'anna22')
 
@@ -111,33 +134,52 @@ class Store {
     console.log('@Store getTransactions')
     return mockTransactions
   }
+
   async getLegacyTransactions() {
     return mockLegacyTransactions
   }
+
   async getAccounts() {
     return users('deohge', 'blackandwhitecat')
   }
+
+  async getSettings(): Promise<Settings> {
+    return settings
+  }
+
+  async updateSettings(newSettings: Settings): Promise<Settings> {
+    settings = newSettings
+    return settings
+  }
+
   async getFriends() {
     return mockFriends
   }
+
   async getSuggestedFriends() {
     return users('bobby', 'bob1990')
   }
+
   async getFriendRequests() {
     return users('bobby', 'bob1990', 'chad')
   }
+
   async getUsers() {
     return mockUsers
   }
+
   async getUser(userId: string): Promise<any> {
     return user(userId)
   }
+
   async getMessages(userId: string): Promise<any> {
     return mockConversations.find(convo => convo.userId == userId)?.messages
   }
+
   async getContacts(): Promise<any> {
     return mockUsers
   }
+
   async search(term): Promise<any> {
     return new Promise(resolve => {
       setTimeout(() => {
@@ -158,6 +200,7 @@ class Store {
       }, 1000)
     })
   }
+
   async logOut() {
     mockUsers.forEach(u => u.active = false)
   }

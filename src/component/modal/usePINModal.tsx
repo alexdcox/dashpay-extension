@@ -5,7 +5,7 @@ import PrimaryButton from "../PrimaryButton";
 import linkedKeypadAndPINDisplay from "../linkedKeypadAndPINDisplay";
 
 export default function () {
-  const {PINDisplay, Keypad, state, setState} = linkedKeypadAndPINDisplay()
+  const {PINDisplay, Keypad, pin, setPIN} = linkedKeypadAndPINDisplay()
 
   const modal = useModal({
     children: (
@@ -20,5 +20,5 @@ export default function () {
     )
   })
 
-  return {...modal, state, setState}
+  return {...modal, pin, setPIN}
 }

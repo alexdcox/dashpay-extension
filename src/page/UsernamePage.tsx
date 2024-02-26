@@ -8,11 +8,12 @@ import {Link} from "react-router-dom";
 import {Ban, CheckmarkSharp} from "react-ionicons";
 import LoadingIndicator from "../component/icon/LoadingIndicator";
 import {debounce} from "../util";
+import {isButtonElement} from "react-router-dom/dist/dom";
 
 let staticValidation: any = {}
 let staticUsername: string = ''
 
-export default function () {
+export default function() {
   const ValidationState = {
     Default: 0,
     Loading: 1,
@@ -21,8 +22,8 @@ export default function () {
   }
 
   const defaultValidationState = {
-    length: ValidationState.Default,
-    characters: ValidationState.Default,
+    length: ValidationState.Error,
+    characters: ValidationState.Success,
     availability: ValidationState.Default,
   }
 
@@ -32,10 +33,10 @@ export default function () {
     validation: defaultValidationState,
   })
 
-  const UsernameRegex = /^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]$/
-  const lengthValidator = username => username.length >= 3
+  const UsernameRegex = /^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]+$/
+  const lengthValidator = username => username.length >= 3 && username.length <= 62
   const characterValidator = username => username.match(UsernameRegex) != null
-  const usernameValid = username => username.length >= 3 && username.match(UsernameRegex) != null
+  const usernameValid = username => lengthValidator(username) && characterValidator(username)
 
   const sendDpnsRequest = useMemo(() => {
     return debounce(async username => {
@@ -68,7 +69,7 @@ export default function () {
   }, [])
 
   const validatorMessages = {
-    length: () => 'Minimum 3 characters',
+    length: () => state.username.length > 62 ? 'Maximum 62 characters' : 'Minimum 3 characters',
     characters: () => 'Letters, numbers and hyphens only',
     availability: () => {
       switch (state.validation.availability) {
@@ -95,9 +96,11 @@ export default function () {
     sendDpnsRequest(username)
   }
 
+  const isButtonEnabled = Object.values(state.validation).every(v => v === ValidationState.Success)
+
   return (
     <div className="flex flex-col flex-grow flex-start content-start items-start justify-start">
-      <BackButton className="absolute"/>
+      <BackButton className="absolute" debug={true}/>
       <img src={usernameSvg}
            alt="woman sitting with a pen and notepad"
            className="mx-auto w-3/4"/>
@@ -109,33 +112,41 @@ export default function () {
           switch (state.validation[validator]) {
             case ValidationState.Default:
               return (
-                <div className="mt-1 flex items-center" key={k}>
-                  <LoadingIndicator variant="dot" loading={false} className="ml-[6px] mr-[3px]"/>
+                <div className="mt-1 flex items-center h-[23px]" key={k}>
+                  <div className="w-[22px]">
+                    <LoadingIndicator variant="dot" loading={false} className="ml-[6px] mr-[3px]"/>
+                  </div>
                   <span className="text-dp-grey font-light ml-2">{validatorMessages[validator]()}</span>
                 </div>
               )
             case ValidationState.Loading:
               return (
-                <div className="mt-1 flex items-center" key={k}>
-                  <LoadingIndicator variant="dot" loading={true} className="ml-[6px] mr-[3px]"/>
+                <div className="mt-1 flex items-center h-[23px]" key={k}>
+                  <div className="w-[22px]">
+                    <LoadingIndicator variant="dot" loading={true} className="ml-[6px] mr-[3px]"/>
+                  </div>
                   <span className="text-dp-grey font-light ml-2">{validatorMessages[validator]()}</span>
                 </div>
               )
             case ValidationState.Success:
               return (
-                <div className="mt-1 flex items-center" key={k}>
-                  <div className="p-[4px] bg-dp-green/10 rounded-full">
-                    <CheckmarkSharp height=".9rem" width=".8rem" color="rgb(var(--green))"/>
+                <div className="mt-1 flex items-center h-[23px]" key={k}>
+                  <div className="w-[22px]">
+                    <div className="h-[20px] w-[20px] bg-dp-green/10 rounded-full flex items-center justify-center">
+                      <CheckmarkSharp height=".9rem" width=".8rem" color="rgb(var(--green))"/>
+                    </div>
                   </div>
                   <span className="text-dp-grey font-light ml-2 text-dp-green">{validatorMessages[validator]()}</span>
                 </div>
               )
             case ValidationState.Error:
               return (
-                <div className="mt-1 flex items-center" key={k}>
-                  <div className="p-[4px] bg-dp-red/10 rounded-full">
-                    {/*<Ban stroke="hsl(349, 100%, 69%)" className="scale-[1.3]"/>*/}
-                    <Ban height=".9rem" width=".8rem" color="rgb(var(--red))"/>
+                <div className="mt-1 flex items-center h-[23px]" key={k}>
+                  <div className="w-[22px]">
+                    <div className="h-[20px] w-[20px] bg-dp-red/10 rounded-full flex items-center justify-center">
+                      {/*<Ban stroke="hsl(349, 100%, 69%)" className="scale-[1.3]"/>*/}
+                      <Ban height=".9rem" width=".8rem" color="rgb(var(--red))"/>
+                    </div>
                   </div>
                   <span className="text-dp-grey font-light ml-2 text-dp-red">{validatorMessages[validator]()}</span>
                 </div>
@@ -145,7 +156,7 @@ export default function () {
       </div>
       <Suggestions options={state.suggestions} className="mb-4"/>
       <Link to="/backup" className="w-full">
-        <Button className="w-full">Next</Button>
+        <Button className="w-full" disabled={!isButtonEnabled}>Next</Button>
       </Link>
     </div>
   )

@@ -2,16 +2,27 @@ import React from 'react'
 import {useLocation, useNavigate} from "react-router-dom";
 
 export default function ({
-  onClick = undefined as () => void,
+  onClick = undefined as (defaultOnClick: () => void) => void,
   className = '',
+  debug = false,
+  redirect = undefined,
 }) {
   const {state} = useLocation()
   const nav = useNavigate()
+  const defaultOnClick = () => {
+    if (debug) {
+      return nav('/debug')
+    }
+    if (redirect) {
+      return nav(redirect)
+    }
+    nav(-1)
+  }
   const handleOnClick = () => {
-    if (typeof onClick === 'function') {
-      onClick()
+    if (onClick) {
+      onClick(defaultOnClick)
     } else {
-      nav(-1)
+      defaultOnClick()
     }
   }
   return !state?.disableBack && (

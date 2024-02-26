@@ -2,42 +2,28 @@ import Keypad from "./Keypad";
 import {useState} from "react";
 import PINDisplay from "./PINDisplay";
 
-export default function({
+export default function ({
   maxDigits = 6,
   onChange = undefined as (pin: string) => void,
 } = {}) {
-  const [state, setState] = useState({
-    pin: '',
-  })
+  const [pin, setPIN] = useState('')
 
   const onKeyPress = (value: any) => {
     if (value == '.') return
-    if (state.pin.length >= maxDigits) return
-    const pin = state.pin + value
-    setState({...state, pin})
+    if (pin.length >= maxDigits) return
+    setPIN(pin + value)
     onChange?.(pin)
   }
 
   const onBackspace = () => {
-    const pin = state.pin.substring(0, state.pin.length - 1)
-    setState({...state, pin})
+    setPIN(pin.substring(0, pin.length - 1))
     onChange?.(pin)
   }
 
   return {
-    state,
-    setState,
-    PINDisplay: ({
-      className = '',
-      pin = state.pin,
-    }) => <PINDisplay {...{
-      className,
-      pin,
-    }}/>,
-    Keypad: (props: any) => <Keypad {...{
-      onBackspace,
-      onKeyPress,
-      ...props,
-    }}/>,
+    pin,
+    setPIN,
+    PINDisplay: ({className = ''}) => <PINDisplay {...{className, pin}}/>,
+    Keypad: (props: any) => <Keypad {...{onBackspace, onKeyPress, ...props}}/>,
   }
 }
